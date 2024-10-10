@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Fofinho com a minha mulher</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 0;
+            overflow: hidden; /* Para ocultar barras de rolagem */
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            position: relative; /* Para permitir o posicionamento absoluto dos corações */
+            z-index: 1; /* Certifica-se que a caixa está acima dos corações */
+        }
+
+        h1 {
+            color: #ff69b4; /* Cor rosa */
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #ff69b4; /* Cor rosa */
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #ff1493; /* Cor rosa mais escuro */
+        }
+
+        /* Estilo dos corações */
+        .coracao {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            animation: flutuar 5s forwards;
+        }
+
+        @keyframes flutuar {
+            0% {
+                transform: translateX(-50%) translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(-50%) translateY(-100vh);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Queres comer sushi comigo?</h1>
+        <form>
+            <button type="button" onclick="responder('sim')">Sim</button>
+            <button id="naoButton" type="button" onclick="responder('nao')" onmouseover="fugir(event)">Não</button>
+        </form>
+    </div>
+
+    <!-- Adicionando música romântica -->
+    <audio id="musica" src="musica.mp3" autoplay loop></audio>
+
+    <script>
+        function responder(resposta) {
+            if (resposta === 'sim') {
+                alert("Yay! Estou ansioso para o nosso date! 💖");
+            } else {
+                alert("Tudo bem, quem sabe em outra ocasião! 😊");
+            }
+        }
+
+        // Função para gerar corações flutuantes
+        function criarCoracao() {
+            const coracao = document.createElement('div');
+            coracao.classList.add('coracao');
+            coracao.innerHTML = '❤️'; // O coração
+            coracao.style.left = Math.random() * 100 + 'vw'; // Posição aleatória na largura da tela
+            document.body.appendChild(coracao);
+
+            // Remove o coração após a animação
+            setTimeout(() => {
+                coracao.remove();
+            }, 5000); // Tempo deve ser o mesmo da animação
+        }
+
+        // Gera corações a cada 500ms
+        setInterval(criarCoracao, 500);
+
+        // Função para fazer o botão "Não" fugir
+        function fugir(event) {
+            const button = document.getElementById('naoButton');
+            const mouseX = event.clientX; // Posição do mouse na horizontal
+            const mouseY = event.clientY; // Posição do mouse na vertical
+
+            const buttonRect = button.getBoundingClientRect(); // Obter posição e tamanho do botão
+            const buttonX = buttonRect.x + buttonRect.width / 2; // Centro do botão na horizontal
+            const buttonY = buttonRect.y + buttonRect.height / 2; // Centro do botão na vertical
+
+            // Calcular distância entre o mouse e o botão
+            const distanceX = mouseX - buttonX;
+            const distanceY = mouseY - buttonY;
+            const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+            // Se o mouse estiver muito perto (dentro de 100 pixels), mover o botão
+            if (distance < 100) {
+                const viewportWidth = window.innerWidth; // Largura da janela
+                const viewportHeight = window.innerHeight; // Altura da janela
+
+                let randomX = Math.random() * (viewportWidth - buttonRect.width);
+                let randomY = Math.random() * (viewportHeight - buttonRect.height);
+
+                // Mover o botão na direção oposta ao mouse
+                randomX = Math.max(0, Math.min(randomX + (distanceX > 0 ? -50 : 50), viewportWidth - buttonRect.width));
+                randomY = Math.max(0, Math.min(randomY + (distanceY > 0 ? -50 : 50), viewportHeight - buttonRect.height));
+
+                // Garantir que o botão fica dentro do viewport
+                button.style.position = 'absolute'; // Para que possamos mover o botão
+                button.style.left = randomX + 'px';
+                button.style.top = randomY + 'px';
+            }
+        }
+    </script>
+</body>
+</html>
