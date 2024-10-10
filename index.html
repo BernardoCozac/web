@@ -68,26 +68,83 @@
                 opacity: 0;
             }
         }
+
+        /* Estilo do seletor de data */
+        #dataContainer {
+            margin-top: 20px;
+            display: none; /* Ocultar inicialmente */
+        }
+
+        #dataInput {
+            padding: 10px;
+            border: 1px solid #ff69b4;
+            border-radius: 10px;
+            font-size: 16px;
+            outline: none;
+            width: 150px;
+        }
+
+        /* Estilo da mensagem de sucesso */
+        #mensagem {
+            display: none; /* Ocultar inicialmente */
+            font-size: 20px;
+            color: #ff69b4;
+            margin: 20px 0;
+        }
+
+        /* Estilo do gatinho */
+        #gatinho {
+            margin-top: 20px;
+            display: none; /* Ocultar inicialmente */
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Queres comer sushi comigo?</h1>
-        <form>
+        <h1>Queres ir comigo num date?</h1>
+        <form id="formulario">
             <button type="button" onclick="responder('sim')">Sim</button>
             <button id="naoButton" type="button" onclick="responder('nao')" onmouseover="fugir(event)">Não</button>
         </form>
+        <div id="dataContainer">
+            <label for="dataInput">Escolhe uma data:</label>
+            <input type="date" id="dataInput">
+            <button type="button" onclick="submeter()">Submeter</button>
+        </div>
+        <div id="mensagem"><b>Yay!!! Agora escolhe uma data, meu amor!</b></div>
+        <div id="gatinho">
+            <!-- Espaço para o gatinho com corações -->
+            <img src="gatinho.gif" alt="Gatinho com Corações" style="width: 150px;"/>
+        </div>
     </div>
 
     <!-- Adicionando música romântica -->
-    <audio id="musica" src="musica.mp3" autoplay loop></audio>
+    <audio id="musica" src="caminho-da-sua-musica.mp3" autoplay loop></audio>
 
     <script>
         function responder(resposta) {
+            const dataContainer = document.getElementById('dataContainer');
+            const formulario = document.getElementById('formulario');
+            const mensagem = document.getElementById('mensagem');
+
             if (resposta === 'sim') {
-                alert("Yay! Estou ansioso para o nosso date! 💖");
+                formulario.style.display = 'none'; // Esconder os botões
+                mensagem.style.display = 'block'; // Mostrar mensagem
+                dataContainer.style.display = 'block'; // Exibir seletor de data
             } else {
                 alert("Tudo bem, quem sabe em outra ocasião! 😊");
+            }
+        }
+
+        function submeter() {
+            const dataInput = document.getElementById('dataInput').value;
+            const gatinho = document.getElementById('gatinho');
+            const mensagem = document.getElementById('mensagem');
+            if (dataInput) {
+                mensagem.innerHTML = "Ok amorzinho! Vamos no dia " + dataInput + ", amo-te minha vida! Olha o gatinho🐈‍⬛ ❤️🥹"
+                gatinho.style.display = 'block'; // Mostrar gatinho após submeter
+            } else {
+                alert("Amor e a data???🤨");
             }
         }
 
